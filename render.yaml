@@ -1,30 +1,24 @@
 databases:
   - name: postgres
     ipAllowList: []
-    databaseName: product_test_db
-    user: demo
+    # databaseName: product_test_db
+    # user: demo
 
 services:
   - type: web
     name: demo
     env: ruby
-    buildCommand: "./render-build.sh"
-    startCommand: "bundle exec rails s"
+    buildCommand: "./bin/render-build.sh"
+    startCommand: bundle exec rails s
     envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false 
       - key: DATABASE_URL
         fromDatabase:
           name: postgres
           property: connectionString
-      - key: RAILS_MASTER_KEY
-        sync: true  # Consider syncing RAILS_MASTER_KEY if it is needed for Rails credentials.
-
-# exit on error
-set -o errexit
-
-bundle install
-bundle exec rails assets:precompile
-bundle exec rails assets:clean
-bundle exec rails db:migrate
-
-#if you have seeds to run add:
-# bundle exec rails db:seed
+  - type: redis
+    name: redis
+    ipAllowList: []
+    plan: free
+    maxmemoryPolicy: noeviction
