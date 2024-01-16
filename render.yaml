@@ -17,3 +17,14 @@ services:
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: true  # Consider syncing RAILS_MASTER_KEY if it is needed for Rails credentials.
+
+# exit on error
+set -o errexit
+
+bundle install
+bundle exec rails assets:precompile
+bundle exec rails assets:clean
+bundle exec rails db:migrate
+
+#if you have seeds to run add:
+# bundle exec rails db:seed
