@@ -24,13 +24,13 @@
 #     maxmemoryPolicy: noeviction
 
 databases:
-  - name: BusTicketManager
+  - name: ProductCrud
     databaseName: product_crud
     user: product_crud
     plan: free
 services:
   - type: web
-    name: BusTicketManager
+    name: ProductCrud
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
